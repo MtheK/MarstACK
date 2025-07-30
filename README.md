@@ -35,6 +35,14 @@ In OpenWRT, for example, this can be accomplished in the GUI or in the config:
   docker run -p 80:8000 marstack
 ```
 
+### Running with docker-compose
+This will build and run the container, as well as restarting it after system reboot.
+
+```
+#cd to cloned directory
+docker compose up -d
+```
+
 ### Running Manually
 1. Create a virtual environment (optional but recommended):
    ```bash
