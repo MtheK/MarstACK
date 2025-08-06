@@ -2,10 +2,13 @@ import logging
 from datetime import datetime
 import pytz
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse, PlainTextResponse
-
+from fastapi.responses import JSONResponse, PlainTextResponse, HTMLResponse
+from fastapi.staticfiles import StaticFiles
+import markdown
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Configure logging
 logger = logging.getLogger("uvicorn.error")  # Use uvicorn's error logger
@@ -18,6 +21,33 @@ async def log_error_middleware(request: Request, call_next):
     if response.status_code in [404, 405]:
         logger.error(f'{response.status_code} ERROR - "{request.method} {request.url}"')
     return response
+
+
+@app.get("/", response_class=HTMLResponse)
+async def marstack_homepage(request: Request):
+    """
+    Friendly Homepage for MarstACK
+    """
+
+    md_text = f"""
+# MarstACK
+![Logo](static/logo.png)
+### Keep your solar battery online even when you're offline
+---
+*{
+        "Success! You've correctly configured your DNS. Your batteries should now work offline."
+        if request.url.hostname == "eu.hamedata.com"
+        else "In order for your batteries to work offline you must configure your network's DNS. Check out the Wiki."
+    }*
+
+[MarstACK Github](https://www.github.com/fignew/MarstACK)
+
+[MarstACK DNS Configuration Wiki](https://github.com/fignew/MarstACK/wiki)
+
+[API Endpoint Documentation](/redoc)
+"""
+    html_content = markdown.markdown(md_text)
+    return HTMLResponse(content=html_content)
 
 
 @app.get("/prod/api/v1/setB2500Report")
