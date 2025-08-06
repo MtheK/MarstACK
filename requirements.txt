@@ -1,4 +1,5 @@
-fastapi[standard]
-uvicorn
-pytz
-ruff
+fastapi[standard] >= 0.104
+markdown >= 3.8
+pytz >= 2023.3
+ruff >= 0.12
+uvicorn >=0.23
