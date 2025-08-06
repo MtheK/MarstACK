@@ -1,4 +1,7 @@
 # MarstACK
+![Logo](app/static/logo.png)
+
+---
 
 This is an application that emulates the eu.hamedata.com endpoint which is required for the Marstek B2500 balcony solar battery to work correctly offline.
 
@@ -20,14 +23,8 @@ I would recommend not doing any blind firmware updates as breakage is likely.
 ### Prerequisites
 In order for this to work you must configure your DNS resolver to return your local server's IP for the domain eu.hamedata.com instead of the actual cloud server IP.
 
-In OpenWRT, for example, this can be accomplished in the GUI or in the config:
+There is a [MarstACK Wiki](https://github.com/fignew/MarstACK/wiki) with instructions on how to configure various routers.
 
-**/etc/config/dhcp**
-```
-    config domain
-      option name 'eu.hamedata.com'
-      option ip '192.168.1.XXX'
-```
 ### Running in Docker/Podman
 
 ```
