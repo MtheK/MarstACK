@@ -1,5 +1,8 @@
 FROM python:3.12-alpine
-WORKDIR /code
+
+ENV LOG_LEVEL=info
+
+WORKDIR /code/app
 COPY ./requirements.txt /code/requirements.txt
 COPY ./app /code/app
 ENV PATH="/home/mack/.local/bin:${PATH}"
@@ -9,4 +12,4 @@ RUN chown -R mack:mack /code
 USER mack
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-CMD ["fastapi", "run", "app/main.py", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["/bin/sh", "-c", "uvicorn main:app --log-level ${LOG_LEVEL} --host 0.0.0.0 --port 8000"]

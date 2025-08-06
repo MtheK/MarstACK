@@ -4,14 +4,20 @@ import pytz
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, PlainTextResponse
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
-logger = logging.getLogger(__name__)
 
 app = FastAPI()
+
+# Configure logging
+logger = logging.getLogger("uvicorn.error")  # Use uvicorn's error logger
+
+
+# Log unknown endpoints/methods as errors
+@app.middleware("http")
+async def log_error_middleware(request: Request, call_next):
+    response = await call_next(request)
+    if response.status_code in [404, 405]:
+        logger.error(f'{response.status_code} ERROR - "{request.method} {request.url}"')
+    return response
 
 
 @app.get("/prod/api/v1/setB2500Report")
@@ -23,7 +29,7 @@ async def set_b2500_report(request: Request):
     """
     # Log all query parameters
     params = dict(request.query_params)
-    logger.info(f"GET /prod/api/v1/setB2500Report - Query params: {params}")
+    logger.debug(f"GET /prod/api/v1/setB2500Report - Query params: {params}")
 
     return JSONResponse(content={"code": 1, "msg": "ok"})
 
@@ -39,7 +45,7 @@ async def get_date_info(request: Request):
     """
     # Log all query parameters
     params = dict(request.query_params)
-    logger.info(f"GET /app/neng/getDateInfoeu.php - Query params: {params}")
+    logger.debug(f"GET /app/neng/getDateInfoeu.php - Query params: {params}")
 
     # Get current date in UTC and format it
     now = datetime.now(pytz.utc)
@@ -62,7 +68,7 @@ async def put_err_info(request: Request):
     body_str = body.decode("utf-8")
 
     # Log the request body
-    logger.info(f"POST /app/Solar/puterrinfo.php - Request body: {body_str}")
+    logger.debug(f"POST /app/Solar/puterrinfo.php - Request body: {body_str}")
 
     return "_1"
 
@@ -80,7 +86,7 @@ async def get_err_info(request: Request):
     body_str = body.decode("utf-8")
 
     # Log the request body
-    logger.info(f"GET /app/Solar/puterrinfo.php - Request body: {body_str}")
+    logger.debug(f"GET /app/Solar/puterrinfo.php - Request body: {body_str}")
 
     return "_2"
 
@@ -95,7 +101,7 @@ async def get_realtime_soc(request: Request):
     """
     # Log all query parameters
     params = dict(request.query_params)
-    logger.info(f"GET /ems/api/v1/getRealtimeSoc - Query params: {params}")
+    logger.debug(f"GET /ems/api/v1/getRealtimeSoc - Query params: {params}")
 
     return JSONResponse(
         content={"code": 1, "show": 0, "msg": "ok", "data": {"soc": 0, "time_no": 0}}
