@@ -18,6 +18,7 @@ app = FastAPI()
 async def set_b2500_report(request: Request):
     """
     Endpoint to emulate /prod/api/v1/setB2500Report
+
     Returns a simple JSON response {"code":1,"msg":"ok"}
     """
     # Log all query parameters
@@ -31,7 +32,9 @@ async def set_b2500_report(request: Request):
 async def get_date_info(request: Request):
     """
     Endpoint to emulate /app/neng/getDateInfoeu.php
+
     Returns the current date in the format _YYYY_MM_DD_HH_MM_SS_04_0_0_0
+
     I don't know what the 04 represents but it seems to be static.
     """
     # Log all query parameters
@@ -51,6 +54,7 @@ async def get_date_info(request: Request):
 async def put_err_info(request: Request):
     """
     Endpoint to emulate POST /app/Solar/puterrinfo.php
+
     Returns a simple text response "_1"
     """
     # Get the request body
@@ -67,7 +71,9 @@ async def put_err_info(request: Request):
 async def get_err_info(request: Request):
     """
     Endpoint to emulate GET /app/Solar/puterrinfo.php
+
     Returns a simple text response "_2"
+    Very rarely called
     """
     # Get the request body
     body = await request.body()
@@ -83,6 +89,7 @@ async def get_err_info(request: Request):
 async def get_realtime_soc(request: Request):
     """
     Endpoint to emulate GET /ems/api/v1/getRealtimeSoc
+
     Returns a simple JSON response:
     {"code":1,"show":0,"msg":"ok","data":{"soc":0,"time_no":0}}
     """
