@@ -79,6 +79,22 @@ async def get_err_info(request: Request):
     return "_2"
 
 
+@app.get("/ems/api/v1/getRealtimeSoc", response_class=JSONResponse)
+async def get_realtime_soc(request: Request):
+    """
+    Endpoint to emulate GET /ems/api/v1/getRealtimeSoc
+    Returns a simple JSON response:
+    {"code":1,"show":0,"msg":"ok","data":{"soc":0,"time_no":0}}
+    """
+    # Log all query parameters
+    params = dict(request.query_params)
+    logger.info(f"GET /ems/api/v1/getRealtimeSoc - Query params: {params}")
+
+    return JSONResponse(
+        content={"code": 1, "show": 0, "msg": "ok", "data": {"soc": 0, "time_no": 0}}
+    )
+
+
 if __name__ == "__main__":
     import uvicorn
 
