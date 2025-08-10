@@ -3,18 +3,19 @@
 
 ---
 
-This is an application that emulates the eu.hamedata.com endpoint which is required for the Marstek B2500 balcony solar battery to work correctly offline.
+This is an application that emulates the eu.hamedata.com cloud servers which are required for Marstek balcony solar batteries to work correctly offline.
 
-When offline (either you or the cloud servers) the zero feed-in system stops working for no reason at all. This script fixes that. In addition, it boosts your privacy by preventing the Battery from "phoning home" (MarstACK logs the data being submitted in the console).
+When offline (either you or the cloud servers) the zero feed-in system stops working for no reason at all. This script fixes that. In addition, it boosts your privacy by preventing the battery from "phoning home" (MarstACK logs the data being submitted in the console).
 
 This program works excellently together with Tomquist's great tools such as [b2500-meter](https://github.com/tomquist/b2500-meter) and [hm2mqtt](https://github.com/tomquist/hm2mqtt). Without his effort the Marstek platform would not be of interest.
 
 
 ## Compatibility
-I have only tested this with my battery:
-* Marstek Saturn-C B2500-H firmware v110
+MarstACK has been tested with:
+* my battery - Marstek Saturn-C B2500-H Firmware v110
+* [bbmfarp](https://github.com/bbmfarp) - Marstek Venus E (2. Gen) Firmware 152
 
-Please let me know if you have success with other models.
+Please let me know if you have success with other models or if there are any errors that show up in the logs.
 I would recommend not doing any blind firmware updates as breakage is likely.
 
 
@@ -25,11 +26,10 @@ In order for this to work you must configure your DNS resolver to return your lo
 
 There is a [MarstACK Wiki](https://github.com/fignew/MarstACK/wiki) with instructions on how to configure various routers.
 
-### Running in Docker/Podman
+### Running hosted image in Docker/Podman
 
 ```
-  docker build -t marstack .
-  docker run -p 80:8000 marstack
+  docker run -p 80:8000 ghcr.io/fignew/marstack:latest
 ```
 
 ### Running with docker-compose
@@ -38,6 +38,13 @@ This will build and run the container, as well as restarting it after system reb
 ```
 #cd to cloned directory
 docker compose up -d
+```
+
+### Building image locally in Docker/Podman
+
+```
+  docker build -t marstack .
+  docker run -p 80:8000 marstack
 ```
 
 ### Running Manually
