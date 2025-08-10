@@ -2,7 +2,12 @@ import logging
 from datetime import datetime
 import pytz
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse, PlainTextResponse, HTMLResponse
+from fastapi.responses import (
+    JSONResponse,
+    PlainTextResponse,
+    HTMLResponse,
+    FileResponse,
+)
 from fastapi.staticfiles import StaticFiles
 import markdown
 
@@ -21,6 +26,11 @@ async def log_error_middleware(request: Request, call_next):
     if response.status_code in [404, 405]:
         logger.error(f'{response.status_code} ERROR - "{request.method} {request.url}"')
     return response
+
+
+@app.get("/favicon.ico")
+async def favicon():
+    return FileResponse("static/favicon.ico")
 
 
 @app.get("/", response_class=HTMLResponse)
