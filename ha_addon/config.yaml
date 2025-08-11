@@ -1,0 +1,21 @@
+name: MarstACK
+version: 0.2.2
+slug: marstack
+description: Keep your Marstek battery operational without cloud access
+url: https://github.com/fignew/MarstACK
+icon: icon.png
+arch:
+  - amd64
+  - aarch64
+  - armv7
+startup: application
+boot: auto
+ingress: false
+ports:
+  80/tcp: 8000
+host_network: false
+image: ghcr.io/fignew/marstack:0.2.2
+options:
+  log_level: info
+schema:
+  log_level: list(error|info|debug)
