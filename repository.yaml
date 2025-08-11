@@ -1,3 +1,6 @@
 name: "MarstACK"
 url: "https://github.com/fignew/MarstACK"
 maintainer: "github/fignew"
+addons:
+  marstack:
+    repository: ha_addon
